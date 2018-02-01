@@ -1,0 +1,22 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+
+android {
+    compileSdkVersion sdkVersion
+
+    defaultConfig {
+        applicationId "com.tatuas.android.pickerdialogsample"
+        minSdkVersion sdkMinVersion
+        targetSdkVersion sdkVersion
+        versionCode 1
+        versionName "1.0.0"
+    }
+}
+
+dependencies {
+    implementation(project(":library")) { transitive = true }
+
+    implementation implementations.kotlin
+    implementation implementations.appCompatV7
+}

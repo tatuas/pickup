@@ -1,0 +1,29 @@
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: "com.github.dcendents.android-maven"
+
+android {
+    defaultPublishConfig "release"
+    compileSdkVersion sdkVersion
+
+    defaultConfig {
+        minSdkVersion sdkMinVersion
+        targetSdkVersion sdkVersion
+        versionName libraryVersion
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    api implementations.kotlin
+    api implementations.appCompatV7
+    api implementations.picker
+}
