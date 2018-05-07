@@ -1,6 +1,6 @@
 ext {
-    kotlinVersion = "1.2.21"
-    libraryVersion = "0.5.0-alpha1"
+    kotlinVersion = "1.2.41"
+    libraryVersion = "0.5.0-alpha2"
 
     sdkMinVersion = 16
     sdkVersion = 27
@@ -10,15 +10,15 @@ ext {
     ]
 
     classpathes = [
-            googleServices: "com.google.gms:google-services:3.1.0",
-            gradle        : "com.android.tools.build:gradle:3.1.0-beta1",
+            googleServices: "com.google.gms:google-services:3.2.0",
+            gradle        : "com.android.tools.build:gradle:3.2.0-alpha13",
             kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
             maven         : "com.github.dcendents:android-maven-gradle-plugin:2.0",
     ]
 
     implementations = [
-            appCompatV7: "com.android.support:appcompat-v7:27.0.2",
-            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
-            picker     : "com.shawnlin:number-picker:2.4.5",
+            appCompatV7: "com.android.support:appcompat-v7:27.1.1",
+            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+            picker     : "com.shawnlin:number-picker:2.4.6",
     ]
 }
