@@ -45,9 +45,9 @@ abstract class AbstractPickerDialog protected constructor(protected val context:
                 displayedValues = data.toTypedArray()
             }
 
-    protected fun NumberPicker.toFirstPosition() =
+    protected fun NumberPicker.toFirstPosition(position: Int = FIRST_POSITION) =
             also {
-                value = FIRST_POSITION
+                value = position
             }
 
     fun show() = create().show()
