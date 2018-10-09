@@ -24,6 +24,9 @@ class MultiplePickerDialog(context: Context) : AbstractPickerDialog(context) {
     private var leftData: List<String> = listOf()
     private var centerData: List<String> = listOf()
     private var rightData: List<String> = listOf()
+    private var leftDataFirstPosition: Int = UNDEFINED_POSITION
+    private var centerDataFirstPosition: Int = UNDEFINED_POSITION
+    private var rightDataFirstPosition: Int = UNDEFINED_POSITION
 
     private var onPositiveClicked: ((Triple<Int, Int, Int>) -> Unit)? = null
     private var onPickerChanged: ((Triple<Int, Int, Int>) -> Unit)? = null
@@ -52,6 +55,12 @@ class MultiplePickerDialog(context: Context) : AbstractPickerDialog(context) {
 
     fun withRightData(data: List<String>) = also { rightData = data }
 
+    fun withLeftDataFirstPosition(firstPosition: Int) = also { leftDataFirstPosition = firstPosition }
+
+    fun withCenterDataFirstPosition(firstPosition: Int) = also { centerDataFirstPosition = firstPosition  }
+
+    fun withRightDataFirstPosition(firstPosition: Int) = also { rightDataFirstPosition = firstPosition  }
+
     fun withPositiveClicked(impl: ((Triple<Int, Int, Int>) -> Unit)) = also { onPositiveClicked = impl }
 
     fun withPickerChanged(impl: ((Triple<Int, Int, Int>) -> Unit)) = also { onPickerChanged = impl }
@@ -61,9 +70,9 @@ class MultiplePickerDialog(context: Context) : AbstractPickerDialog(context) {
         val parent = LayoutInflater.from(context)
                 .inflate(R.layout.dialog_multiple_picker, null, false)
 
-        val left = numberPicker(parent, R.id.picker_left).setupWith(leftData)
-        val center = numberPicker(parent, R.id.picker_center).setupWith(centerData)
-        val right = numberPicker(parent, R.id.picker_right).setupWith(rightData)
+        val left = numberPicker(parent, R.id.picker_left).setupWith(leftData, leftDataFirstPosition)
+        val center = numberPicker(parent, R.id.picker_center).setupWith(centerData, centerDataFirstPosition)
+        val right = numberPicker(parent, R.id.picker_right).setupWith(rightData, rightDataFirstPosition)
 
         listOf(left, center, right).map {
             it.setOnValueChangedListener { _, _, _ ->
@@ -91,14 +100,18 @@ class MultiplePickerDialog(context: Context) : AbstractPickerDialog(context) {
                 .create()
     }
 
-    private fun NumberPicker.setupWith(data: List<String>): NumberPicker {
+    private fun NumberPicker.setupWith(data: List<String>, firstPosition: Int): NumberPicker {
         return if (data.isNotEmpty()) {
             visibility = View.VISIBLE
             setData(data)
-            toFirstPosition()
         } else {
             visibility = View.GONE
-            toFirstPosition()
+        }.run {
+            if (firstPosition != UNDEFINED_POSITION) {
+                toFirstPosition(firstPosition)
+            } else {
+                toFirstPosition()
+            }
         }
     }
 }

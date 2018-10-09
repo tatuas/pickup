@@ -8,7 +8,7 @@ subprojects { Project subProject ->
             maven { url repositoryUrls.jitpack }
         }
         dependencies {
-            classpath classpathes.gradle
+            classpath 'com.android.tools.build:gradle:3.2.0'
             classpath classpathes.googleServices
             classpath classpathes.kotlin
             classpath classpathes.maven

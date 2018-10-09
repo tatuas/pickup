@@ -12,6 +12,8 @@ import com.shawnlin.numberpicker.NumberPicker
 
 class SteppingPickerDialog(context: Context) : AbstractPickerDialog(context) {
     companion object {
+        private const val UNDEFINED_POSITION = -1
+
         @JvmStatic
         fun newInstance(context: Context): SteppingPickerDialog {
             return SteppingPickerDialog(context)
@@ -26,6 +28,8 @@ class SteppingPickerDialog(context: Context) : AbstractPickerDialog(context) {
     private var primaryData: List<String> = listOf()
     private var onPrimaryPicked: ((Int) -> List<String>?)? = null
     private var onPositiveClicked: ((Pair<Int, Int>) -> Unit)? = null
+    private var primaryDataFirstPosition: Int = UNDEFINED_POSITION
+    private var secondaryDataFirstPosition: Int = UNDEFINED_POSITION
 
     fun withCancelable(value: Boolean) = also { cancelable = value }
 
@@ -50,6 +54,10 @@ class SteppingPickerDialog(context: Context) : AbstractPickerDialog(context) {
     fun withPrimaryData(data: List<String>) = also { primaryData = data }
 
     fun withPrimaryPicked(impl: ((Int) -> List<String>?)?) = also { onPrimaryPicked = impl }
+
+    fun withPrimaryDataFirstPosition(firstPosition: Int) = also { primaryDataFirstPosition = firstPosition}
+
+    fun withSecondaryDataFirstPosition(firstPosition: Int) = also { secondaryDataFirstPosition = firstPosition}
 
     fun withPositiveClicked(impl: ((Pair<Int, Int>) -> Unit)?) = also { onPositiveClicked = impl }
 
@@ -88,11 +96,23 @@ class SteppingPickerDialog(context: Context) : AbstractPickerDialog(context) {
 
     private fun updatePrimaryData(primaryView: NumberPicker, primaryData: List<String>) {
         val data = if (primaryData.isNotEmpty()) primaryData else createEmptyData()
-        primaryView.setData(data).toFirstPosition()
+        primaryView.setData(data).run {
+            if (primaryDataFirstPosition != UNDEFINED_POSITION) {
+                toFirstPosition(primaryDataFirstPosition)
+            } else {
+                toFirstPosition()
+            }
+        }
     }
 
     private fun updateSecondaryData(secondaryView: NumberPicker, primaryDataPosition: Int) {
         val data = onPrimaryPicked?.invoke(primaryDataPosition) ?: createEmptyData()
-        secondaryView.setData(data).toFirstPosition()
+        secondaryView.setData(data).run {
+            if (primaryDataFirstPosition != UNDEFINED_POSITION) {
+                toFirstPosition(primaryDataFirstPosition)
+            } else {
+                toFirstPosition()
+            }
+        }
     }
 }
